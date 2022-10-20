@@ -21,7 +21,7 @@ class ProfileHeaderView: UIView {
     var profilePhoto: UIImageView{
         let imageView = UIImageView()
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.bounds = CGRect(x: 0, y: 0, width: 140, height: 140)
+        imageView.bounds = CGRect(x: 0, y: 0, width: 125, height: 125)
         imageView.layer.cornerRadius = imageView.bounds.size.width/2
         imageView.layer.borderWidth = 3
         imageView.layer.borderColor = CGColor.init(red: 0, green: 0, blue: 0, alpha: 0.6)
@@ -83,7 +83,8 @@ class ProfileHeaderView: UIView {
         
         NSLayoutConstraint.activate([
             profileName.topAnchor.constraint(equalTo: topAnchor, constant: 27),
-            profileName.centerXAnchor.constraint(equalTo: centerXAnchor, constant: 20),
+            profileName.leftAnchor.constraint(equalTo: profilePhoto.rightAnchor, constant: 16),
+            profileName.rightAnchor.constraint(equalTo: rightAnchor, constant: -16),
 
             profilePhoto.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             profilePhoto.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
@@ -92,6 +93,7 @@ class ProfileHeaderView: UIView {
 
             statusLabel.topAnchor.constraint(equalTo: profileName.bottomAnchor, constant: 10),
             statusLabel.leftAnchor.constraint(equalTo: profileName.leftAnchor),
+            statusLabel.rightAnchor.constraint(equalTo: profileName.rightAnchor),
 
             statusButton.topAnchor.constraint(equalTo: profilePhoto.bottomAnchor, constant: 16),
             statusButton.leftAnchor.constraint(equalTo: leftAnchor, constant: 16),
@@ -119,6 +121,7 @@ class ProfileHeaderView: UIView {
     
     @objc func statusTextChanged(_ textField: UITextField){
         statusText = textField.text!
+    
     }
 }
 

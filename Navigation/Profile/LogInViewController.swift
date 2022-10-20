@@ -16,7 +16,6 @@ class LogInViewController: UIViewController {
     let loginButton = UIButton()
     let scrollView = UIScrollView()
    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -42,10 +41,8 @@ class LogInViewController: UIViewController {
     
     func scroll(){
         view.addSubview(scrollView)
-        
-        scrollView.contentSize = view.bounds.size
+        scrollView.contentSize = CGSize(width: view.frame.size.width, height: 1000)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
         scrollView.addSubview(logoVk)
         scrollView.addSubview(loginButton)
         scrollView.addSubview(loginField)
@@ -53,8 +50,8 @@ class LogInViewController: UIViewController {
         NSLayoutConstraint.activate([
             scrollView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             scrollView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            scrollView.heightAnchor.constraint(equalToConstant: 3000),
-            scrollView.widthAnchor.constraint(equalToConstant: 3000)
+            scrollView.heightAnchor.constraint(equalToConstant: view.frame.size.height),
+            scrollView.widthAnchor.constraint(equalToConstant: 1000)
         ])
     }
 
@@ -69,8 +66,8 @@ class LogInViewController: UIViewController {
         NSLayoutConstraint.activate([
             logoVk.heightAnchor.constraint(equalToConstant: 100),
             logoVk.widthAnchor.constraint(equalToConstant: 100),
-            logoVk.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            logoVk.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 120)
+            logoVk.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor),
+            logoVk.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: 120)
         ])
     }
     
@@ -94,17 +91,22 @@ class LogInViewController: UIViewController {
         loginField.backgroundColor = .systemGray6
         loginField.layer.borderWidth = 0.5
         loginField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
-        loginField.placeholder = " Login"
+        loginField.placeholder = "Login"
         loginField.autocapitalizationType = .none
         loginField.textColor = .black
-       
+        loginField.leftViewMode = UITextField.ViewMode.always
+        loginField.leftView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
+        
+               
         passwordField.backgroundColor = .systemGray6
         passwordField.layer.borderWidth = 0.5
         passwordField.layer.borderColor = .init(red: 0, green: 0, blue: 0, alpha: 0.5)
-        passwordField.placeholder = " Password"
+        passwordField.placeholder = "Password"
         passwordField.autocapitalizationType = .none
         passwordField.textColor = .black
         passwordField.isSecureTextEntry = true
+        passwordField.leftViewMode = UITextField.ViewMode.always
+        passwordField.leftView = UIView(frame:CGRect(x:0, y:0, width:10, height:10))
         
         NSLayoutConstraint.activate([
             stackForLoginPassword.heightAnchor.constraint(equalToConstant: 100),
@@ -147,6 +149,7 @@ class LogInViewController: UIViewController {
         let profileVC = ProfileViewController()
         self.navigationController?.pushViewController(profileVC, animated: true)
         }
+    
     func subscribeKeyboardEvents(){
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name:
             UIResponder.keyboardWillShowNotification, object: nil)
@@ -154,8 +157,6 @@ class LogInViewController: UIViewController {
     
     @objc func keyboardWillShow(_ notification: NSNotification){
         guard let ks = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue else {return}
-        self.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ks.height, right: 0)
+        self.scrollView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: ks.height + 60, right: 0)
     }
-    
-    
 }
